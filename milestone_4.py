@@ -17,6 +17,7 @@ class Hangman:
             index=[pos for pos, char in enumerate(self.word) if char == guess]
             for i in index:
                 self.word_guessed[i]=guess
+            self.num_letters += -1
             print(self.word_guessed)
         else:
             print(f"Sorry, {guess} is not in the word. Try again.")
