@@ -35,7 +35,6 @@ class Hangman:
                 self.list_of_guesses.append(guess)
                 break     
                     
-         
     
 x=Hangman(my_word_list)
 x.ask_for_input()
