@@ -2,14 +2,22 @@ import random
 word_list = ["raspberry","strawberry","blueberry","banana","guava"]
 word = random.choice(word_list)
 
-while True:
-    guess = (input("Guess a letter\n")).lower()
-    if len(guess)==1 and guess.isalpha():
-        break
+def check_guess(guess):
+    if guess in word:
+        print(f"Good guess! {guess} is in the word.")
+        return True
     else:
-        "Invalid letter. Please, enter a single alphabetical character."
+        print(f"Sorry, {guess} is not in the word. Try again.")
+        return False
 
-if guess in word:
-    print(f"Good guess! {guess} is in the word.")
-else:
-    print(f"Sorry, {guess} is not in the word. Try again.")
+def ask_for_input():
+    while True:
+        guess = (input("Guess a letter\n")).lower()
+        if len(guess)==1 and guess.isalpha():
+            break
+        else:
+            print(f"Invalid letter. Please, enter a single alphabetical character.")
+    if check_guess(guess):
+        return guess
+
+ask_for_input()
