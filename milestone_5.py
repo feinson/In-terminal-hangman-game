@@ -2,7 +2,7 @@ import random
 my_word_list = ["raspberry","strawberry","blueberry","banana","guava"]
 
 class Hangman:
-    def __init__(self, word_list, num_lives=5):
+    def __init__(self, word_list, num_lives=5): #Initialises all the attributes
         self.num_lives = num_lives 
         self.word = random.choice(word_list)
         self.word_guessed = ['_'] * len(self.word)
@@ -16,8 +16,8 @@ class Hangman:
             index=[pos for pos, char in enumerate(self.word) if char == guess]
             for i in index:
                 self.word_guessed[i]=guess
-            self.num_letters += -1
-            print(self.word_guessed)
+            self.num_letters += -1                  #I changed the 'word_guessed' attribute like this because the in-built indexing only
+            print(self.word_guessed)                #returns the first instance, rather than every instance.
         else:
             print(f"Sorry, {guess} is not in the word. Try again.\n")
             self.num_lives += -1
@@ -36,9 +36,9 @@ class Hangman:
                 break     
                     
     
-def play_game(word_list):
-    game=Hangman(word_list)
-    while True:
+def play_game(word_list):           #I haven't yet added any kind of display. I think I can work out how since that's just a function of num_lives.
+    game=Hangman(word_list)         #I would add it but I think my time can be better spent going onto the other projects. I also already have some
+    while True:                     #experience with GUIs since I made like a sudoku-solver.
         if game.num_lives == 0:
             print("You lost!")
             break
