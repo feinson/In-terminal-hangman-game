@@ -1,19 +1,20 @@
 import random
-my_word_list = ["raspberry","strawberry","blueberry","banana","guava"]
+
+with open('word_list.txt') as f:    my_word_list = [ line.strip() for line in f ]
+
 
 class Hangman:
 
-    def __init__(self, word_list, num_lives=5): #Initialises all the attributes
+    def __init__(self, word_list, num_lives=7): #Initialises all the attributes
         
         self.num_lives = num_lives 
         self.word = random.choice(word_list)
         self.word_guessed = ['_'] * len(self.word)
         self.num_letters = len(set(self.word))
-        self.word_list = word_list
         self.list_of_guesses = []
 
 
-    def check_guess(self, guess):
+    def check_letter(self, guess):
     
         if guess in self.word:
             print(f"Good guess! {guess} is in the word.")
@@ -24,11 +25,20 @@ class Hangman:
             self.num_letters -= 1                  
             print(self.word_guessed)
 
-            '''I changed the 'word_guessed' attribute like this because the in-built indexing only
-               returns the first instance, rather than every instance.  '''
-
         else:
             print(f"Sorry, {guess} is not in the word. Try again.")
+            self.num_lives -= 1
+            print(f'You have {self.num_lives} lives left.\n')
+            print(self.word_guessed)
+        self.list_of_guesses.append(guess)
+
+    def check_word(self, guess):
+
+        if guess == self.word:
+            print("Correct word!")
+            self.num_letters = 0
+        else:
+            print("That word is not the word!")
             self.num_lives -= 1
             print(f'You have {self.num_lives} lives left.\n')
             print(self.word_guessed)
@@ -40,36 +50,36 @@ class Hangman:
         while True:
             guess = (input("Guess a letter\n")).lower()
 
-            if len(guess)!=1 or  not(guess.isalpha()):
-                print(f"Invalid letter. Please, enter a single alphabetical character.")
+            if  not(guess.isalpha()):
+                print(f"Invalid letter or word. Please, enter a single alphabetical character or a word.")
 
             elif guess in self.list_of_guesses:
                 print(f"You alread tried the letter {guess}")
                 
-            else:
-                Hangman.check_guess(self, guess)
+            elif len(guess) == 1:
+                Hangman.check_letter(self, guess)
                 break     
-                    
+            else:
+                Hangman.check_word(self,guess)
+                break
     
 def play_game(word_list):           
 
-    '''I haven't yet added any kind of display. I think I can work out how since that's just a function of num_lives. 
-    I would add it but I think my time can be better spent going onto the other projects. I also already have some
-    experience with GUIs since I made like a sudoku-solver.'''
-
-    game=Hangman(word_list)         
+    game = Hangman(word_list)         
     print(game.word_guessed)
+    print(f"You have {game.num_lives} lives.")
     while True:                     
 
         if game.num_lives == 0:
             print("You lost!")
+            print(f"The word was '{game.word}'")
             break
 
         elif game.num_letters >0:
             Hangman.ask_for_input(game)
 
         elif game.num_lives != 0 and game.num_letters == 0:
-            print(f"Congratulations! You won the game")
+            print(f"Congratulations! You won the game. The word was {game.word}.")
             break
 
 
